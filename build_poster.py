@@ -146,7 +146,7 @@ d.text((W - MX - d.textlength(r, font=F(SANS_B, 14)), 8), r, font=F(SANS_B, 14),
 d.line([(MX, 30), (W - MX, 30)], fill=INK, width=2)
 t = "Tuesday 24 November 2026"
 d.text(((W - d.textlength(t, font=F(SERIF_B, 50))) / 2, 34), t, font=F(SERIF_B, 50), fill=NAVY)
-sub = "Asia markets roar as Huang returns to Nvidia \u00b7 Israeli strike kills three in Khan Younis \u00b7 China names the first foreign astronaut for its station"
+sub = "Asia markets roar as Huang returns to Nvidia \u00b7 Israeli strikes kill four in Gaza \u00b7 China names the first foreign astronaut for its station"
 d.text(((W - d.textlength(sub, font=F(SERIF_I, 16.5))) / 2, 92), sub, font=F(SERIF_I, 16.5), fill=RED)
 
 # ---------------- numbers band ----------------
@@ -162,8 +162,8 @@ for i, (num, lab) in enumerate(stats):
 
 # ---------------- region chips ----------------
 RY = 164
-chips = [("ASIA 13", (36, 110, 160)), ("AMERICAS 3", (150, 60, 120)), ("EUROPE 2", (52, 110, 70)),
-         ("OCEANIA 2", (190, 120, 30)), ("MIDDLE EAST 1", (166, 28, 28))]
+chips = [("ASIA 12", (36, 110, 160)), ("AMERICAS 3", (150, 60, 120)), ("EUROPE 2", (52, 110, 70)),
+         ("OCEANIA 1", (190, 120, 30)), ("MIDDLE EAST 3", (166, 28, 28))]
 cx = MX
 for lab, col in chips:
     wch = d.textlength(lab, font=F(SANS_B, 12)) + 22
@@ -203,9 +203,9 @@ card(MX, R1Y, CW3, R1H, 1, "chart", "HONG KONG \u00b7 MARKETS",
      "Huang's return sets Asia alight",
      "Nvidia reinstated Jensen Huang as CEO; Wall Street leapt and Asia followed \u2014 MSCI Asia-Pacific +4.6%, Seoul's Kospi +7.5%, Tokyo's Nikkei +4.5%.",
      "Reuters", "REPORTED", big=True)
-card(MX + CW3 + 10, R1Y, CW3, R1H, 2, "gaza", "KHAN YOUNIS, GAZA \u00b7 WAR",
-     "Israeli strike kills three in Gaza",
-     "An airstrike killed at least three Palestinians near a police outpost in Khan Younis on Tuesday and wounded five others, local medics said.",
+card(MX + CW3 + 10, R1Y, CW3, R1H, 2, "gaza", "GAZA \u00b7 WAR",
+     "Israeli strikes kill at least four in Gaza",
+     "A strike killed three Palestinians near a police outpost in Khan Younis on Tuesday and wounded five, medics said. A second strike in Gaza City killed Hamas security chief Naeem Abu Nahel, Hamas sources said.",
      "Reuters", "REPORTED", big=True)
 card(MX + 2 * (CW3 + 10), R1Y, CW3, R1H, 3, "rocket", "JIUQUAN, CHINA \u00b7 SPACE",
      "First foreigner to fly to China's station",
@@ -217,7 +217,7 @@ CW5 = (CW - 32) // 5
 R2Y, RSH = 398, 157
 row2 = [
     ("jet", "ULLEUNG, S. KOREA", "Seoul scrambles jets at Russian planes",
-     "Russian jets entered the air defence zone; islanders sheltered for 3 minutes.", "Yonhap", "REPORTED"),
+     "Russian jets entered the air defence zone; Ulleung islanders sheltered for 3 minutes. Seoul summoned Moscow's attaché.", "Yonhap", "REPORTED"),
     ("talks", "BERLIN", "Zelensky: ready for four-way talks",
      "Kyiv ready to meet Russia, the US and Europe at once \u2014 \u201cliterally tomorrow\u201d.", "AFP \u00b7 Ukrinform", "ON RECORD"),
     ("eu", "BRUSSELS", "EU proposes 22nd Russia sanctions",
@@ -251,11 +251,11 @@ AY = R3Y + RSH + 8
 d.rectangle([MX, AY, W - MX, AY + 24], fill=INK)
 d.text((MX + 10, AY + 5), "ALSO ON TUESDAY 24 NOVEMBER", font=F(SANS_B, 13), fill=BG)
 liners = [
-    (14, "SEOUL", "Consumer sentiment slips to 103.1, a seven-month low (Bank of Korea)."),
-    (15, "SEOUL COURT", "Arrest warrant for an election official over forged June vote counts."),
+    (14, "HANOI", "Gas blast at a hotpot restaurant kills 6 and injures 10; police blame a gas leak (Reuters)."),
+    (15, "RAS AL KHAIMAH", "Bus and truck collide on Al Watan Road, killing 11, the interior ministry says (Reuters)."),
     (16, "CANBERRA", "Singapore\u2013Australia: essential-supplies pact and a first CO2 storage treaty."),
     (17, "HONG KONG", "Wang Fuk Court fund: HK$300,000 per flat owner, HK$200,000 per life lost."),
-    (18, "WELLINGTON", "RNZ's HR chief quits amid an NZ$11.8m deficit \u2014 third exec exit in two months."),
+    (18, "BAGHDAD", "PM seizes Kurdish oilfields and border crossings after an oil-smuggling probe (Reuters)."),
     (19, "TORONTO", "Leafs snap a nine-game skid, rallying from 2-0 down on Long Island."),
     (20, "BRIDGETOWN", "UN and Barbados call for talks on a global AI risk framework in a year."),
     (21, "TAIPEI", "Taiex leaps 9.15% intraday \u2014 a record 3,368 points \u2014 as TSMC hits its limit."),
