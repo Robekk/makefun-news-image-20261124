@@ -125,12 +125,12 @@ y = block(d, RX, y,
           F(SANS, 16), RW, 21)
 y += 12
 d.line([(RX, y), (RIGHT, y)], fill=GREY, width=1); y += 12
-d.text((RX, y), "UN: AGREE AI RULES", font=F(SERIF_B, 24), fill=INK); y += 29
-d.text((RX, y), "WITHIN ONE YEAR", font=F(SERIF_B, 24), fill=INK); y += 35
+d.text((RX, y), "ZELENSKY: READY FOR", font=F(SERIF_B, 24), fill=INK); y += 29
+d.text((RX, y), "FOUR-WAY TALKS", font=F(SERIF_B, 24), fill=INK); y += 35
 y = block(d, RX, y,
-          "UN chief Ant\u00f3nio Guterres and Barbados PM Mia Mottley issued the Bridgetown "
-          "Call: agree a global AI safety framework within one year, backed by a "
-          "proposed $3bn fund so poorer nations get a voice.",
+          "Zelensky told NATO lawmakers that Ukraine is ready to meet Russia, the US "
+          "and Europe at once — \u201cliterally tomorrow\u201d. Partners aim to hold the four-way "
+          "meeting before Christmas, and Putin has agreed Europeans can join.",
           F(SANS, 16), RW, 21)
 print("rail ends", y)
 
@@ -142,10 +142,10 @@ cols = [
      "Brussels proposed a 22nd package of sanctions on Russia, targeting banks, "
      "crypto platforms and ex-combatants, and barring Russian teams and athletes "
      "from EU events under their flag."),
-    ("NATO VOWS SPACE DEFENCE",
-     "NATO vowed to defend its interests in space after reports that Russia is "
-     "preparing a nuclear-armed satellite, possibly launching as soon as "
-     "December."),
+    ("UN: AGREE AI RULES WITHIN ONE YEAR",
+     "UN chief Ant\u00f3nio Guterres and Barbados PM Mia Mottley issued the Bridgetown "
+     "Call: an AI safety framework within one year, backed by a $3bn fund so "
+     "poorer nations get a voice."),
     ("DOZENS MISSING OFF SENEGAL",
      "A migrant boat capsized off Senegal's coast, leaving dozens of people "
      "missing — the latest tragedy for the small boats that cross toward "
@@ -166,16 +166,17 @@ BY = 860
 d.rectangle([MX, BY, RIGHT, BY + 28], fill=INK)
 d.text((MX + 12, BY + 5), "IN BRIEF — ALSO TODAY", font=F(SANS_B, 16), fill=(255, 252, 240))
 briefs = [
-    ("INDONESIA  ", "Rescue teams searched a burning factory as workers stayed missing after a major fire."),
-    ("SEATTLE  ", "ICE agents made arrests at Seattle's airport, in scenes a lawmaker called \u201cappalling\u201d."),
-    ("CLIMATE  ", "COP31 talks in T\u00fcrkiye bogged down over fossil fuels and climate finance."),
+    ("INDONESIA", "Search goes on for dozens missing after a candy factory fire."),
+    ("MEXICO", "FBI top-ten fugitive \u2018El Chapo Isidro\u2019 captured in Sinaloa."),
+    ("CLIMATE", "COP31 ends with no deal after fossil-fuel wording is dropped."),
+    ("SPACE", "NATO vows space defence amid Russian nuclear satellite reports."),
 ]
+BW2, GAP2 = 226, 16
 for i, (h, b) in enumerate(briefs):
-    bx = MX + i * (CW + GAP)
-    by = BY + 42
-    d.text((bx, by), h, font=F(SANS_B, 15), fill=RED)
-    block(d, bx + d.textlength(h, font=F(SANS_B, 15)), by, b, F(SANS, 15),
-          CW - d.textlength(h, font=F(SANS_B, 15)), 20)
+    bx = MX + i * (BW2 + GAP2)
+    by = BY + 38
+    d.text((bx, by), h, font=F(SANS_B, 13.5), fill=RED)
+    block(d, bx, by + 18, b, F(SANS, 13.5), BW2, 18.5)
 
 # ---------- footer ----------
 d.line([(MX, 980), (RIGHT, 980)], fill=INK, width=2)
