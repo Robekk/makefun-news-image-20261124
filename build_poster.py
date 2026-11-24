@@ -145,12 +145,12 @@ r = "21 STORIES \u00b7 5 REGIONS \u00b7 ALL FROM THIS ONE DAY"
 d.text((W - MX - d.textlength(r, font=F(SANS_B, 14)), 8), r, font=F(SANS_B, 14), fill=GREY)
 d.line([(MX, 30), (W - MX, 30)], fill=INK, width=2)
 t = "Tuesday 24 November 2026"
-d.text(((W - d.textlength(t, font=F(SERIF_B, 66))) / 2, 34), t, font=F(SERIF_B, 66), fill=NAVY)
+d.text(((W - d.textlength(t, font=F(SERIF_B, 50))) / 2, 34), t, font=F(SERIF_B, 50), fill=NAVY)
 sub = "Asia markets roar as Huang returns to Nvidia \u00b7 Israeli strike kills three in Khan Younis \u00b7 China names the first foreign astronaut for its station"
-d.text(((W - d.textlength(sub, font=F(SERIF_I, 16.5))) / 2, 110), sub, font=F(SERIF_I, 16.5), fill=RED)
+d.text(((W - d.textlength(sub, font=F(SERIF_I, 16.5))) / 2, 92), sub, font=F(SERIF_I, 16.5), fill=RED)
 
 # ---------------- numbers band ----------------
-NY = 136
+NY = 118
 d.rectangle([MX, NY, W - MX, NY + 40], fill=NAVY)
 stats = [("+9.1%", "TAIEX RECORD DAY"), ("53.7", "JAPAN FACTORY PMI"), ("+6.1%", "SINGAPORE Q3 GDP"),
          ("103.1", "KOREA SENTIMENT"), ("S$5bn", "STARHUB\u2013M1 MERGER"), ("128\u2013111", "BLAZERS BEAT 76ERS")]
@@ -161,7 +161,7 @@ for i, (num, lab) in enumerate(stats):
     d.text((sx + (sw - d.textlength(lab, font=F(SANS_B, 9.5))) / 2, NY + 26), lab, font=F(SANS_B, 9.5), fill=(178, 192, 214))
 
 # ---------------- region chips ----------------
-RY = 182
+RY = 164
 chips = [("ASIA 13", (36, 110, 160)), ("AMERICAS 3", (150, 60, 120)), ("EUROPE 2", (52, 110, 70)),
          ("OCEANIA 2", (190, 120, 30)), ("MIDDLE EAST 1", (166, 28, 28))]
 cx = MX
@@ -197,7 +197,7 @@ def card(x, y, w, h, num, ill, dateline, headline, body, source, pill, big=False
     return cy
 
 # row 1 — three big cards
-R1Y, R1H = 210, 190
+R1Y, R1H = 192, 214
 CW3 = (CW - 20) // 3
 card(MX, R1Y, CW3, R1H, 1, "chart", "HONG KONG \u00b7 MARKETS",
      "Huang's return sets Asia alight",
@@ -214,7 +214,7 @@ card(MX + 2 * (CW3 + 10), R1Y, CW3, R1H, 3, "rocket", "JIUQUAN, CHINA \u00b7 SPA
 
 # rows 2-3 — five small cards each
 CW5 = (CW - 32) // 5
-R2Y, RSH = 408, 146
+R2Y, RSH = 398, 157
 row2 = [
     ("jet", "ULLEUNG, S. KOREA", "Seoul scrambles jets at Russian planes",
      "Russian jets entered the air defence zone; islanders sheltered for 3 minutes.", "Yonhap", "REPORTED"),
