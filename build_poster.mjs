@@ -18,10 +18,10 @@ const canvas = new Canvas(W * S, H * S);
 const ctx = canvas.getContext('2d');
 ctx.scale(S, S);
 
-const BG = '#f7f1e2', INK = '#17293f', RED = '#a2382c', NAVY = '#122740', GREY = '#7a7263';
-const GOLD = '#c9962e', GOLDL = '#d8b25c';
-const ZA = '#1e3a5f', ZB = '#a2382c', ZC = '#8f6b14';
-const LAND = '#f0e7cf', SEA = '#ccd9e6';
+const BG = '#f6f1e3', INK = '#14304f', RED = '#c52d28', NAVY = '#102a46', GREY = '#777777';
+const GOLD = '#b77a12', GOLDL = '#d9a83f';
+const ZA = '#174b80', ZB = '#c52d28', ZC = '#b77a12';
+const LAND = '#f3ecd7', SEA = '#c7d8ea';
 
 const F = (fam, px) => `${px}px "${fam}"`;
 function text(str, x, y, font, fill, align = 'left') {
@@ -62,11 +62,7 @@ function poly(pts, fill) {
   ctx.fillStyle = fill; ctx.beginPath();
   pts.forEach(([px, py], i) => i ? ctx.lineTo(px, py) : ctx.moveTo(px, py)); ctx.closePath(); ctx.fill();
 }
-function vgrad(x, y, w, h, top, bot) {
-  const g = ctx.createLinearGradient(0, y, 0, y + h);
-  g.addColorStop(0, top); g.addColorStop(1, bot);
-  ctx.fillStyle = g; ctx.fillRect(x, y, w, h);
-}
+function vgrad(x, y, w, h, top, bot) { ctx.fillStyle = top; ctx.fillRect(x, y, w, h); } // FLAT: solid fill only
 function rrs(x, y, w, h, r, fill, lw = 1) { ctx.strokeStyle = fill; ctx.lineWidth = lw; ctx.beginPath(); ctx.roundRect(x, y, w, h, r); ctx.stroke(); }
 function rr(x, y, w, h, r, fill) {
   ctx.fillStyle = fill; ctx.beginPath(); ctx.roundRect(x, y, w, h, r); ctx.fill();
@@ -74,10 +70,7 @@ function rr(x, y, w, h, r, fill) {
 
 // ---------------- illustration scenes (native vector, gradient + shadow) ----------------
 function illo(kind, x, y, w, h, zone, zlabel) {
-  ctx.save();
-  ctx.shadowColor = 'rgba(60,50,30,0.35)'; ctx.shadowBlur = 5; ctx.shadowOffsetY = 2;
-  rect(x, y, w, h, '#ddd');
-  ctx.restore();
+  rect(x, y, w, h, '#e9e3d3'); // FLAT: no shadow
   ctx.save();
   ctx.beginPath(); ctx.roundRect(x, y, w, h, 5); ctx.clip();
   const cx = x + w / 2, cy = y + h / 2;
@@ -323,6 +316,7 @@ rr(MX, 164, CW, 50, 5, NAVY);
 const stats = [['$41bn', 'SANOFI–INSMED DEAL'], ['699', 'DRONES DOWNED'], ['47,000', 'WOMEN KILLED BY KIN'], ['6,500+', 'ROHINGYA TO RETURN'], ['26', 'BANTEN FIRE TOLL'], ['23', 'HURT IN VILLAVICENCIO']];
 stats.forEach(([num, lab], i) => {
   const sx = MX + i * CW / 6, sw = CW / 6;
+  if (i > 0) line([[sx, 172], [sx, 206]], '#33506f', 1);
   text(num, sx + (sw - tw(num, F('SerifXB', 22))) / 2, 170, F('SerifXB', 22), '#f5eedd');
   text(lab, sx + (sw - tw(lab, F('SansB', 8))) / 2, 197, F('SansB', 8), GOLDL);
 });
@@ -330,11 +324,19 @@ stats.forEach(([num, lab], i) => {
 // cards
 function card2(x, y, w, num, zone, ill, headline, dek, tag, source, big = false) {
   const ih = big ? 76 : 52;
+  const phf = F('SansB', big ? 15.5 : 11.5), pnw = (big ? 9 : 7.5) * 2 + 6;
+  const phl = wrap2(headline, phf, w - pnw, w).length;
+  const pdl = wrap(dek, F('Sans', big ? 10 : 9), w).length;
+  const pH = ih + 5 + phl * (big ? 19 : 15) + 1 + pdl * (big ? 13 : 11.5) + 3 + 12;
+  rr(x - 6, y - 6, w + 12, pH + 12, 6, '#ffffff');
+  rrs(x - 6, y - 6, w + 12, pH + 12, 6, '#ddd3ba', 1);
   illo(ill, x, y, w, ih, zone, { [ZA]: 'ASIA-PACIFIC', [ZB]: 'EUROPE · AFRICA · MIDEAST', [ZC]: 'AMERICAS' }[zone]);
   let ty = y + ih + 5;
-  const nf = F('SansB', big ? 14 : 12), nt = num + '.';
-  text(nt, x, ty, nf, zone);
-  const nw = tw(nt, nf) + 4;
+  const cr = big ? 9 : 7.5;
+  ell(x + cr, ty + cr, cr, cr, zone);
+  const nf = F('SansB', big ? 10 : 8.5), nt = String(num);
+  text(nt, x + cr - tw(nt, nf) / 2, ty + cr - (big ? 5.5 : 4.5), nf, '#ffffff');
+  const nw = cr * 2 + 6;
   const hf = F('SansB', big ? 15.5 : 11.5);
   wrap2(headline, hf, w - nw, w).forEach((ln, i) => { text(ln, x + (i === 0 ? nw : 0), ty, hf, INK); ty += big ? 19 : 15; });
   ty += 1;
