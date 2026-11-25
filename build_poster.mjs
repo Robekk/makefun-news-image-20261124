@@ -18,9 +18,10 @@ const canvas = new Canvas(W * S, H * S);
 const ctx = canvas.getContext('2d');
 ctx.scale(S, S);
 
-const BG = '#f6f1e6', INK = '#1a1814', RED = '#a61c1c', NAVY = '#162648', GREY = '#605a50';
-const ZA = '#ac2024', ZB = '#006c66', ZC = '#69378f';
-const LAND = '#eee3c8', SEA = '#bcd2e4';
+const BG = '#f7f1e2', INK = '#17293f', RED = '#a2382c', NAVY = '#122740', GREY = '#7a7263';
+const GOLD = '#c9962e', GOLDL = '#d8b25c';
+const ZA = '#1e3a5f', ZB = '#a2382c', ZC = '#8f6b14';
+const LAND = '#f0e7cf', SEA = '#ccd9e6';
 
 const F = (fam, px) => `${px}px "${fam}"`;
 function text(str, x, y, font, fill, align = 'left') {
@@ -66,6 +67,7 @@ function vgrad(x, y, w, h, top, bot) {
   g.addColorStop(0, top); g.addColorStop(1, bot);
   ctx.fillStyle = g; ctx.fillRect(x, y, w, h);
 }
+function rrs(x, y, w, h, r, fill, lw = 1) { ctx.strokeStyle = fill; ctx.lineWidth = lw; ctx.beginPath(); ctx.roundRect(x, y, w, h, r); ctx.stroke(); }
 function rr(x, y, w, h, r, fill) {
   ctx.fillStyle = fill; ctx.beginPath(); ctx.roundRect(x, y, w, h, r); ctx.fill();
 }
@@ -77,7 +79,7 @@ function illo(kind, x, y, w, h, zone, zlabel) {
   rect(x, y, w, h, '#ddd');
   ctx.restore();
   ctx.save();
-  ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip();
+  ctx.beginPath(); ctx.roundRect(x, y, w, h, 5); ctx.clip();
   const cx = x + w / 2, cy = y + h / 2;
   if (kind === 'chart') {
     vgrad(x, y, w, h, '#d8eed6', '#f0f8ec');
@@ -278,7 +280,7 @@ function illo(kind, x, y, w, h, zone, zlabel) {
     ctx.restore();
     text(zlabel, x + 6 + (pw - tw(zlabel, pf)) / 2, y + 9, pf, '#ffffff');
   }
-  srect(x, y, w, h, '#968e7e', 1);
+  rrs(x, y, w, h, 5, '#968e7e', 1);
 }
 
 // ---------------- page ----------------
@@ -286,21 +288,22 @@ rect(0, 0, W, H, BG);
 const MX = 24, CW = W - 2 * MX;
 
 // masthead
-text('THE WORLD IN ONE DAY', MX, 8, F('SansB', 15), RED);
-const r0 = 'EVERY STORY DATED TUESDAY 24 NOV';
-text(r0, W - MX - tw(r0, F('SansB', 13)), 9, F('SansB', 13), GREY);
-line([[MX, 30], [W - MX, 30]], INK, 2);
-const dt = 'Tuesday 24 November 2026';
-text(dt, (W - tw(dt, F('SerifXB', 54))) / 2, 34, F('SerifXB', 54), NAVY);
-const sub = '38 STORIES · 3 COLOUR ZONES · EVERY ONE FROM THIS ONE DAY';
-text(sub, (W - tw(sub, F('SansB', 13))) / 2, 98, F('SansB', 13), GREY);
+rect(0, 0, W, 106, NAVY);
+rect(0, 106, W, 3, GOLD);
+const mt = 'THE WORLD IN ONE DAY';
+text(mt, (W - tw(mt, F('SerifXB', 40))) / 2, 13, F('SerifXB', 40), '#f5eedd');
+line([[MX, 60], [W - MX, 60]], GOLD, 0.75);
+const sub = 'TUESDAY 24 NOVEMBER 2026 · 38 STORIES · 3 COLOUR ZONES · EVERY ONE FROM THIS ONE DAY';
+text(sub, (W - tw(sub, F('SansB', 11))) / 2, 72, F('SansB', 11), GOLDL);
+const sub2 = 'EVERY STORY TAGGED FOR HOW SURE WE ARE — AND SOURCED';
+text(sub2, (W - tw(sub2, F('Sans', 9.5))) / 2, 88, F('Sans', 9.5), '#b9c4d0');
 
 // zone bar
 const zones = [['ASIA-PACIFIC 16', ZA, 16], ['EUROPE · AFRICA · MIDDLE EAST 12', ZB, 12], ['AMERICAS 10', ZC, 10]];
 let zx = MX;
 for (const [lab, col, n] of zones) {
   const zw = CW * n / 38;
-  rect(zx, 118, zw - 3, 20, col);
+  rr(zx, 118, zw - 3, 20, 3, col);
   text(lab, zx + (zw - 3 - tw(lab, F('SansB', 11.5))) / 2, 122, F('SansB', 11.5), '#fcfaf4');
   zx += zw;
 }
@@ -316,14 +319,13 @@ tx += tw('TUESDAY IN UTC', F('SansB', 10.5)) + 12;
 });
 
 // numbers band
-line([[MX, 166], [W - MX, 166]], INK, 1);
+rr(MX, 164, CW, 50, 5, NAVY);
 const stats = [['$41bn', 'SANOFI–INSMED DEAL'], ['699', 'DRONES DOWNED'], ['47,000', 'WOMEN KILLED BY KIN'], ['6,500+', 'ROHINGYA TO RETURN'], ['26', 'BANTEN FIRE TOLL'], ['23', 'HURT IN VILLAVICENCIO']];
 stats.forEach(([num, lab], i) => {
   const sx = MX + i * CW / 6, sw = CW / 6;
-  text(num, sx + (sw - tw(num, F('SansB', 21))) / 2, 171, F('SansB', 21), INK);
-  text(lab, sx + (sw - tw(lab, F('SansB', 8.5))) / 2, 197, F('SansB', 8.5), GREY);
+  text(num, sx + (sw - tw(num, F('SerifXB', 22))) / 2, 170, F('SerifXB', 22), '#f5eedd');
+  text(lab, sx + (sw - tw(lab, F('SansB', 8))) / 2, 197, F('SansB', 8), GOLDL);
 });
-line([[MX, 210], [W - MX, 210]], INK, 1);
 
 // cards
 function card2(x, y, w, num, zone, ill, headline, dek, tag, source, big = false) {
@@ -383,12 +385,12 @@ for (const ring of coast.rings) {
   if (clat < -56) continue;
   const pts = ring.map(([lon, lat]) => ll(lon, lat));
   poly(pts, LAND);
-  ctx.strokeStyle = '#c3b28c'; ctx.lineWidth = 0.75; ctx.beginPath();
+  ctx.strokeStyle = '#b39b63'; ctx.lineWidth = 0.75; ctx.beginPath();
   pts.forEach(([px, py], i) => i ? ctx.lineTo(px, py) : ctx.moveTo(px, py));
   ctx.closePath(); ctx.stroke();
 }
 ctx.restore();
-srect(MAPX, MAPY, MAPW, MAPH, '#968e7e', 1);
+rrs(MAPX, MAPY, MAPW, MAPH, 4, '#968e7e', 1);
 const ZMAP = { ZA, ZB, ZC };
 for (const [num, lon, lat, z] of mapdata.pins) {
   const [px, py] = ll(lon, lat);
@@ -446,7 +448,7 @@ for (let col = 0; col < 2; col++) {
 
 // date check
 const DY = 974;
-srect(MX, DY, CW, 42, RED, 2);
+rrs(MX, DY, CW, 42, 4, RED, 2);
 rect(MX, DY, 104, 42, RED);
 text('DATE', MX + 9, DY + 6, F('SansB', 13), '#ffffff');
 text('CHECK', MX + 9, DY + 23, F('SansB', 13), '#ffffff');
@@ -457,4 +459,4 @@ block("Left out — earlier days: Nvidia rehires Huang, Wall Street's rally (Mon
 const master = await canvas.png;
 await sharp(master).png().toFile(new URL('./poster-2048.png', import.meta.url).pathname);
 await sharp(master).resize(1024, 1024, { kernel: 'lanczos3' }).png().toFile(new URL('./entry.png', import.meta.url).pathname);
-console.log('rendered: poster-2048.png + entry.png');
+console.log('rendered: poster-2048.png + poster-1024.png');
