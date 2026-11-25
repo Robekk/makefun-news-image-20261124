@@ -1,0 +1,9 @@
+{
+  "name": "makefun-news-image-20261124",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "sharp": "^0.34.0",
+    "skia-canvas": "^4.0.1"
+  }
+}
