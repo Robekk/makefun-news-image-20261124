@@ -114,7 +114,11 @@ function illo(kind, x, y, w, h, zone, zlabel) {
     poly([[x + w * 0.68, y + h * 0.5], [x + w * 0.8, y + h * 0.64], [x + w * 0.68, y + h * 0.64]], '#30363e');
     ['#b23c28', '#246ea0', '#346e46'].forEach((c, i) => rect(x + w * (0.17 + i * 0.14), y + h * 0.36, w * 0.12, h * 0.14, c));
     rect(x + w * 0.6, y + h * 0.22, w * 0.08, h * 0.28, '#e8e6de');
-    poly([[x + w * 0.26, y + h * 0.36], [x + w * 0.32, y + h * 0.12], [x + w * 0.38, y + h * 0.36]], '#f08228');
+    const ex = x + w * 0.52, ey = y + h * 0.36, epts = [];
+    for (let i = 0; i < 16; i++) { const a = i * Math.PI / 8, r = i % 2 === 0 ? 10.5 : 5; epts.push([ex + r * Math.cos(a), ey + r * Math.sin(a) * 0.85]); }
+    poly(epts, '#f08228');
+    ell(ex, ey, 4.5, 3.5, '#fcd460');
+    ell(x + w * 0.57, y + h * 0.15, 8, 4, '#8a8d90'); ell(x + w * 0.61, y + h * 0.09, 11, 5, '#a8abae');
     const mx2 = x + w * 0.88, my2 = y + h * 0.34;
     line([[mx2, my2 - 10], [x + w * 0.72, y + h * 0.56]], '#3c3c40', 1);
     ell(mx2, my2, 7, 7, '#26262a');
@@ -152,12 +156,12 @@ function illo(kind, x, y, w, h, zone, zlabel) {
       for (let wy = 0; wy < 2; wy++) for (let wx = 0; wx < 2; wx++)
         rect(x + w * (bx + 0.025 + wx * 0.05), y + h - h * bh + 4 + wy * 8, w * 0.02, 3, '#fade82');
     });
-    [[-30, -12], [30, -12], [-30, 13], [30, 13]].forEach(([dx, dy]) => {
+    [[-44, -16], [44, -16], [-44, 17], [44, 17]].forEach(([dx, dy]) => {
       line([[cx, cy - 4], [cx + dx, cy - 4 + dy]], '#2c3038', 2);
-      ctx.strokeStyle = '#2c3038'; ctx.lineWidth = 2; ctx.beginPath(); ctx.ellipse(cx + dx, cy - 4 + dy, 11, 3, 0, 0, Math.PI * 2); ctx.stroke();
+      ctx.strokeStyle = '#2c3038'; ctx.lineWidth = 2; ctx.beginPath(); ctx.ellipse(cx + dx, cy - 4 + dy, 15, 3.5, 0, 0, Math.PI * 2); ctx.stroke();
     });
-    rect(cx - 11, cy - 9, 22, 11, '#2c3038');
-    ell(cx, cy + 3, 2.5, 2, '#a61c1c');
+    rect(cx - 16, cy - 12, 32, 15, '#2c3038');
+    ell(cx, cy + 5, 3.5, 2.5, '#c52d28');
   } else if (kind === 'oil') {
     vgrad(x, y, w, h, '#f0e6cc', '#faf4e2');
     ell(x + w * 0.82 + 7, y + h * 0.08 + 7, 7, 7, '#f6c45c');
@@ -170,10 +174,11 @@ function illo(kind, x, y, w, h, zone, zlabel) {
       line([[bx + 12 * s, by], [bx - 12 * s, by - h * 0.32 * s]], '#423e36', 1);
       line([[bx, by - h * 0.66 * s], [bx + 17 * s, by - h * 0.66 * s]], '#423e36', 2);
     });
-    const px = x + w * 0.84, py = y + h - 4;
-    poly([[px - 10, py], [px + 2, py - h * 0.44], [px + 12, py]], '#423e36');
-    line([[px + 2, py - h * 0.44], [px - 14, py - h * 0.56]], '#423e36', 3);
-    rect(px - 16, py - h * 0.6, 5, h * 0.1, '#423e36');
+    const px = x + w * 0.79, py = y + h - 4;
+    poly([[px - 15, py], [px + 3, py - h * 0.62], [px + 18, py]], '#423e36');
+    line([[px + 3, py - h * 0.62], [px - 22, py - h * 0.78]], '#423e36', 4);
+    line([[px + 3, py - h * 0.62], [px + 20, py - h * 0.48]], '#423e36', 2);
+    rect(px - 25, py - h * 0.84, 7, h * 0.14, '#423e36');
     [0.9, 0.95].forEach(bx => { rect(x + w * bx, y + h - 11, 7, 7, '#964628'); line([[x + w * bx, y + h - 8], [x + w * bx + 7, y + h - 8]], '#6e321c', 1); });
   } else if (kind === 'ship') {
     vgrad(x, y, w, h * 0.6, '#badc ee'.replace(' ', ''), '#e2f2fa');
@@ -192,18 +197,16 @@ function illo(kind, x, y, w, h, zone, zlabel) {
     ctx.strokeStyle = '#e0f0fa'; ctx.lineWidth = 2;
     for (let i = 0; i < 4; i++) { ctx.beginPath(); ctx.arc(x + 6 + i * w * 0.24 + w * 0.084, y + h * 0.88, w * 0.084, Math.PI, 2 * Math.PI); ctx.stroke(); }
   } else if (kind === 'radar') {
-    vgrad(x, y, w, h, '#16281f', '#223830');
-    poly([[cx, cy], [cx + w * 0.3, cy - h * 0.46], [cx + w * 0.36, cy - h * 0.3]], '#346e54');
-    [[0.11, 0.22], [0.2, 0.4], [0.29, 0.58]].forEach(([rx, ry]) => {
-      ctx.strokeStyle = '#4cc88a'; ctx.lineWidth = 1; ctx.beginPath(); ctx.ellipse(cx, cy, w * rx, h * ry, 0, 0, Math.PI * 2); ctx.stroke();
-    });
-    line([[cx, cy], [cx + w * 0.26, cy - h * 0.44]], '#60dc9c', 2);
-    [[0.13, -0.22], [-0.18, -0.3], [0.05, 0.26]].forEach(([bx, by]) => ell(cx + w * bx, cy + h * by, 2.5, 2.5, '#f46054'));
-    line([[x + 4, cy], [x + w - 4, cy]], '#387e62', 1);
-    line([[cx, y + 4], [cx, y + h - 4]], '#387e62', 1);
-    poly([[x + w * 0.68, y + h * 0.16], [x + w * 0.78, y + h * 0.12], [x + w * 0.76, y + h * 0.2], [x + w * 0.7, y + h * 0.2]], '#b4dcc8');
-    poly([[x, y + h], [x + w * 0.3, y + h * 0.8], [x + w * 0.55, y + h]], '#12201c');
-    poly([[x + w * 0.5, y + h], [x + w * 0.78, y + h * 0.84], [x + w, y + h]], '#12201c');
+    vgrad(x, y, w, h, '#cfe0ee', '#e8f0f8');
+    ell(x + w * 0.1, y + h * 0.2, 13, 4, '#ffffff'); ell(x + w * 0.86, y + h * 0.78, 15, 4, '#ffffff');
+    ctx.save(); ctx.strokeStyle = '#c52d28'; ctx.lineWidth = 1.5; ctx.setLineDash([5, 4]);
+    ctx.beginPath(); ctx.moveTo(x + 2, y + h - 3); ctx.lineTo(x + w - 2, y + 3); ctx.stroke(); ctx.restore();
+    const jet = (jx, jy, sc, col) => {
+      const P = [[99, 18], [72, 11], [60, 6], [52, 10], [24, 10], [15, 1], [9, 11], [7, 17], [15, 19], [22, 26], [30, 20], [42, 20], [47, 33], [60, 20], [82, 21]];
+      poly(P.map(([px, py]) => [jx + px * sc, jy + py * sc]), col);
+    };
+    jet(x + w * 0.06, y + h * 0.1, w * 0.0062, '#22364e');
+    jet(x + w * 0.60, y + h * 0.02, w * 0.0028, '#5a7a9c');
   } else if (kind === 'candle') {
     vgrad(x, y, w, h, '#2c2632', '#423846');
     ctx.strokeStyle = '#786e80'; ctx.lineWidth = 2;
@@ -267,10 +270,7 @@ function illo(kind, x, y, w, h, zone, zlabel) {
   ctx.restore();
   if (zone && zlabel) {
     const pf = F('SansB', 7), pw = tw(zlabel, pf) + 13;
-    ctx.save();
-    ctx.shadowColor = 'rgba(40,32,16,0.4)'; ctx.shadowBlur = 3; ctx.shadowOffsetY = 1;
     rr(x + 6, y + 6, pw, 13, 6.5, zone);
-    ctx.restore();
     text(zlabel, x + 6 + (pw - tw(zlabel, pf)) / 2, y + 9, pf, '#ffffff');
   }
   rrs(x, y, w, h, 5, '#968e7e', 1);
