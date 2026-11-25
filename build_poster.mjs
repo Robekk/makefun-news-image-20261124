@@ -71,7 +71,7 @@ function rr(x, y, w, h, r, fill) {
 }
 
 // ---------------- illustration scenes (native vector, gradient + shadow) ----------------
-function illo(kind, x, y, w, h) {
+function illo(kind, x, y, w, h, zone, zlabel) {
   ctx.save();
   ctx.shadowColor = 'rgba(60,50,30,0.35)'; ctx.shadowBlur = 5; ctx.shadowOffsetY = 2;
   rect(x, y, w, h, '#ddd');
@@ -270,6 +270,14 @@ function illo(kind, x, y, w, h) {
     ell(x + w * 0.65, y + h * 0.13, 18, 9, '#acaaa0'); ell(x + w * 0.72, y + h * 0.07, 20, 7, '#bab8ae');
   }
   ctx.restore();
+  if (zone && zlabel) {
+    const pf = F('SansB', 7), pw = tw(zlabel, pf) + 13;
+    ctx.save();
+    ctx.shadowColor = 'rgba(40,32,16,0.4)'; ctx.shadowBlur = 3; ctx.shadowOffsetY = 1;
+    rr(x + 6, y + 6, pw, 13, 6.5, zone);
+    ctx.restore();
+    text(zlabel, x + 6 + (pw - tw(zlabel, pf)) / 2, y + 9, pf, '#ffffff');
+  }
   srect(x, y, w, h, '#968e7e', 1);
 }
 
@@ -320,7 +328,7 @@ line([[MX, 210], [W - MX, 210]], INK, 1);
 // cards
 function card2(x, y, w, num, zone, ill, headline, dek, tag, source, big = false) {
   const ih = big ? 76 : 52;
-  illo(ill, x, y, w, ih);
+  illo(ill, x, y, w, ih, zone, { [ZA]: 'ASIA-PACIFIC', [ZB]: 'EUROPE · AFRICA · MIDEAST', [ZC]: 'AMERICAS' }[zone]);
   let ty = y + ih + 5;
   const nf = F('SansB', big ? 14 : 12), nt = num + '.';
   text(nt, x, ty, nf, zone);
@@ -330,8 +338,10 @@ function card2(x, y, w, num, zone, ill, headline, dek, tag, source, big = false)
   ty += 1;
   ty = block(dek, x, ty, F('Sans', big ? 10 : 9), w, big ? 13 : 11.5, '#34302a');
   ty += 3;
-  text(tag, x, ty, F('SansB', 8.5), tag === 'CLAIM' ? RED : INK);
-  text('— ' + source, x + tw(tag, F('SansB', 8.5)) + 4, ty, F('Sans', 8.5), GREY);
+  const tf = F('SansB', 7.5), twd = tw(tag, tf);
+  rr(x, ty, twd + 10, 12, 6, tag === 'CLAIM' ? RED : INK);
+  text(tag, x + 5, ty + 2.5, tf, '#fcfaf4');
+  text('— ' + source, x + twd + 14, ty + 1.5, F('Sans', 8.5), GREY);
 }
 const CW3 = Math.floor((CW - 20) / 3), R1Y = 222;
 card2(MX, R1Y, CW3, 1, ZA, 'chart', "ASIA'S CHIP STOCKS SURGE",
